@@ -1,1 +1,602 @@
-<h1> gola </h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Día a Día: Controlando mi Glucosa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f8fb; /* Fondo fijo y claro */
+      transition: none;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 30px 10px 30px 10px;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px #0001;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+    h1 {
+      color: #2a2a60;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 2.1em;
+      letter-spacing: 1px;
+    }
+    .hora {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+    .barra-area {
+      display: flex;
+      align-items: flex-end;
+      gap: 32px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .barra-glucosa-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      min-width: 120px;
+    }
+    .barra-glucosa {
+      width: 60px;
+      height: 350px;
+      background: linear-gradient(to top, #c00 0%, #ffd700 40%, #0c0 80%);
+      border-radius: 20px;
+      border: 3px solid #444;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      box-shadow: 0 4px 16px #0002;
+      position: relative;
+      margin-bottom: 12px;
+    }
+    .nivel {
+      width: 100%;
+      border-radius: 0 0 20px 20px;
+      transition: height 0.5s;
+    }
+    .estado-circulo {
+      margin-top: 8px;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.1em;
+      border: 2.5px solid #fff;
+      box-shadow: 0 2px 8px #0003;
+      background: #0c0;
+      transition: background 0.3s, color 0.3s;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .glucosa-numero {
+      font-size: 2.2em;
+      font-weight: bold;
+      margin-top: 18px;
+      color: #222;
+      min-width: 120px;
+      text-align: center;
+      text-shadow: 1px 1px 4px #fff, 0 0 2px #0002;
+    }
+    .personaje {
+      margin-top: 18px;
+      font-size: 4em;
+      font-weight: bold;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 4px solid #aaa;
+      box-shadow: 0 2px 8px #0002;
+      background: #fff;
+      transition: border 0.3s, background 0.3s;
+    }
+    .pregunta {
+      margin-top: 30px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #2a2a60;
+      background: #e0f4ff;
+      border-radius: 10px;
+      padding: 18px 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 2px 8px #0001;
+    }
+    .opciones {
+      margin-top: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .opcion-btn {
+      display: block;
+      background: #fff;
+      border: 2px solid #888;
+      border-radius: 14px;
+      box-shadow: 2px 4px 10px #0001;
+      margin-bottom: 18px;
+      padding: 12px 18px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.2s, border 0.2s;
+      width: 100%;
+      text-align: left;
+    }
+    .opcion-btn:hover {
+      background: #e0f7fa;
+      border-color: #2a2a60;
+    }
+    .alerta {
+      margin-top: 20px;
+      font-size: 1.3em;
+      font-weight: bold;
+      padding: 10px 20px;
+      border-radius: 10px;
+      display: inline-block;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .consejo {
+      margin-top: 10px;
+      background: #e0f7fa;
+      color: #2a2a60;
+      border: 2px solid #2a2a60;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 1em;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 2px 8px #0001;
+    }
+    .historial {
+      margin-top: 30px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      padding: 10px 20px;
+      max-width: 600px;
+      font-size: 0.95em;
+      color: #444;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 2px 8px #0001;
+    }
+    .fin, .gameover {
+      margin-top: 30px;
+      background: #e0ffe0;
+      border: 2px solid #0c0;
+      border-radius: 10px;
+      padding: 20px 30px;
+      font-size: 1.1em;
+      color: #222;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+      box-shadow: 0 2px 8px #0001;
+    }
+    .gameover {
+      background: #ffe0e0;
+      border: 2px solid #c00;
+      color: #c00;
+    }
+    .mensaje-final {
+      margin-top: 28px;
+      font-size: 1.15em;
+      color: #2a2a60;
+      background: #f7f7ff;
+      border-left: 6px solid #2a2a60;
+      border-radius: 10px;
+      padding: 18px 22px;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 2px 8px #0001;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .reiniciar-btn {
+      margin-top: 20px;
+      padding: 10px 30px;
+      font-size: 1.1em;
+      background: #2a2a60;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .reiniciar-btn:hover {
+      background: #0c0c30;
+    }
+    @media (max-width: 900px) {
+      .barra-area { flex-direction: column; align-items: center; }
+      .glucosa-numero, .personaje { margin-left: 0; margin-top: 20px; }
+      .container { padding: 10px; }
+    }
+    @media (max-width: 700px) {
+      .barra-glucosa, .estado-circulo, .glucosa-numero, .personaje { display: none; }
+      .container { padding: 2px; }
+      .pregunta, .consejo, .historial, .fin, .gameover, .mensaje-final { max-width: 98vw; }
+    }
+    .modal-recomendacion {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(30,40,60,0.85);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .modal-contenido {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px #0005;
+      padding: 38px 32px 32px 32px;
+      max-width: 420px;
+      text-align: center;
+      position: relative;
+      animation: modalPop 0.5s;
+    }
+    @keyframes modalPop {
+      from { transform: scale(0.8); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .modal-icono {
+      font-size: 3em;
+      margin-bottom: 12px;
+      color: #2a2a60;
+    }
+    .modal-mensaje {
+      font-size: 1.15em;
+      color: #2a2a60;
+      margin-bottom: 22px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  
+  <div id="modalRecomendacion" class="modal-recomendacion" style="display:none;">
+    <div class="modal-contenido">
+      <div class="modal-icono">💡</div>
+      <div class="modal-mensaje">
+        Cada decisión cuenta. Para una persona con diabetes, comer bien, moverse y controlarse no es una opción: es parte de su día a día. Cuidar la glucosa es cuidar la vida.<br><br>
+        Conocer es el primer paso para acompañar. Informate, entendé y apoyá.
+      </div>
+      <button class="reiniciar-btn" onclick="reiniciarJuego()">Volver al inicio</button>
+    </div>
+  </div>
+  <div class="container">
+    <div style=" margin-top:24px;">
+    <img src="logo.png" alt="Logo del juego" style="max-width:140px; width:40vw; height:auto; margin-bottom:10px;">
+    </div>
+    <h1>Día a Día: Controlando mi Glucosa</h1>
+    <div class="hora" id="hora"></div>
+    <div class="barra-area">
+      <div class="barra-glucosa-area">
+        <div class="barra-glucosa" id="barraGlucosa">
+          <div class="nivel" id="nivel"></div>
+        </div>
+        <div class="estado-circulo" id="estadoCirculo"></div>
+        <div class="glucosa-numero" id="glucosaNumero"></div>
+        <div class="personaje" id="personaje"></div>
+      </div>
+      <div style="flex:1; min-width:250px;">
+        <div id="alerta"></div>
+        <div class="pregunta" id="pregunta"></div>
+        <div class="opciones" id="opciones"></div>
+        <div class="consejo" id="consejo"></div>
+        <div class="historial" id="historial"></div>
+        <div id="fin"></div>
+        <div id="mensajeFinal"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // --- Preguntas y opciones ---
+    const preguntas = [
+      {
+        texto: "Es hora del desayuno. ¿Qué eliges?",
+        opciones: [
+          {texto: "Pan blanco con mermelada y jugo", efecto: 40, consejo: "Desayuno alto en azúcar, sube rápido la glucosa."},
+          {texto: "Avena con fruta y agua", efecto: 15, consejo: "¡Excelente! Desayuno saludable y estable."},
+          {texto: "No desayunar", efecto: -20, consejo: "Saltarse el desayuno puede causar bajada de glucosa."}
+        ]
+      },
+      {
+        texto: "Vas a la escuela/trabajo. ¿Cómo te trasladas?",
+        opciones: [
+          {texto: "Caminando 30 minutos", efecto: -15, consejo: "Caminar ayuda a reducir la glucosa de forma saludable."},
+          {texto: "En auto o bus", efecto: 0, consejo: "No afecta directamente la glucosa."},
+          {texto: "En bicicleta rápido y sin comer nada", efecto: -25, consejo: "Ejercicio intenso sin comer puede bajar mucho la glucosa."}
+        ]
+      },
+      {
+        texto: "A media mañana tienes hambre. ¿Qué haces?",
+        opciones: [
+          {texto: "Snack azucarado (galletitas)", efecto: 30, consejo: "Un snack azucarado sube la glucosa rápidamente."},
+          {texto: "Fruta o yogur natural", efecto: 10, consejo: "Buena elección, sube la glucosa de forma estable."},
+          {texto: "No comer nada", efecto: -10, consejo: "No comer puede hacer que baje la glucosa."}
+        ]
+      },
+      {
+        texto: "Es hora del almuerzo. ¿Qué eliges?",
+        opciones: [
+          {texto: "Hamburguesa y gaseosa", efecto: 35, consejo: "Comida alta en carbohidratos y azúcar, sube mucho la glucosa."},
+          {texto: "Pollo a la plancha con ensalada", efecto: 10, consejo: "¡Muy bien! Almuerzo saludable."},
+          {texto: "Solo ensalada", efecto: -10, consejo: "Cuidado, podrías necesitar más carbohidratos para mantener la glucosa."}
+        ]
+      },
+      {
+        texto: "Después de almorzar, ¿qué haces?",
+        opciones: [
+          {texto: "Dormir siesta", efecto: 0, consejo: "Descansar no afecta directamente la glucosa."},
+          {texto: "Caminar 20 minutos", efecto: -10, consejo: "Caminar ayuda a mantener la glucosa en rango."},
+          {texto: "Aplicar insulina sin haber comido postre", efecto: -30, consejo: "Aplicar insulina sin comer puede causar hipoglucemia."}
+        ]
+      },
+      {
+        texto: "A media tarde tienes sed. ¿Qué tomas?",
+        opciones: [
+          {texto: "Refresco azucarado", efecto: 25, consejo: "Las bebidas azucaradas suben la glucosa rápidamente."},
+          {texto: "Agua", efecto: 0, consejo: "El agua es la mejor opción para hidratarte."},
+          {texto: "Café solo", efecto: 0, consejo: "El café solo no afecta la glucosa."}
+        ]
+      },
+      {
+        texto: "Te invitan a jugar fútbol intenso. ¿Qué haces?",
+        opciones: [
+          {texto: "Juego sin comer nada", efecto: -25, consejo: "Ejercicio intenso sin comer puede bajar mucho la glucosa."},
+          {texto: "Como una fruta antes de jugar", efecto: 10, consejo: "¡Bien! Comer antes de hacer ejercicio ayuda a evitar bajadas."},
+          {texto: "No juego", efecto: 0, consejo: "No afecta la glucosa."}
+        ]
+      },
+      {
+        texto: "Es hora de la merienda. ¿Qué eliges?",
+        opciones: [
+          {texto: "Pan dulce y chocolate caliente", efecto: 30, consejo: "Merienda alta en azúcar, sube la glucosa rápidamente."},
+          {texto: "Yogur natural y nueces", efecto: 10, consejo: "¡Muy bien! Merienda saludable."},
+          {texto: "No merendar", efecto: -15, consejo: "Saltarse la merienda puede causar bajada de glucosa."}
+        ]
+      },
+      {
+        texto: "Por la noche, ¿qué actividad realizas?",
+        opciones: [
+          {texto: "Ver TV", efecto: 0, consejo: "No afecta directamente la glucosa."},
+          {texto: "Caminar 15 minutos", efecto: -7, consejo: "Caminar ayuda a mantener la glucosa en rango."},
+          {texto: "Ejercicio intenso sin cenar", efecto: -20, consejo: "Ejercicio intenso sin cenar puede bajar mucho la glucosa."}
+        ]
+      },
+      {
+        texto: "Es hora de la cena. ¿Qué eliges?",
+        opciones: [
+          {texto: "Pizza y refresco", efecto: 35, consejo: "Cena alta en carbohidratos y azúcar, sube mucho la glucosa."},
+          {texto: "Pescado con verduras", efecto: 10, consejo: "¡Muy bien! Cena saludable."},
+          {texto: "Solo sopa", efecto: -10, consejo: "Cuidado, podrías necesitar más carbohidratos para mantener la glucosa."}
+        ]
+      }
+    ];
+
+    // --- Variables del juego ---
+    let glucosa = 100;
+    let hora = new Date(2020, 1, 1, 7, 0, 0); // 07:00
+    let historial = [];
+    let preguntaActual = 0;
+    let consejoActual = "";
+    let juegoTerminado = false;
+    let gameOver = false;
+
+    function estadoGlucosa(valor) {
+      if (valor >= 90 && valor <= 130) return ["Óptimo", "#0c0"];
+      if ((valor >= 70 && valor < 90) || (valor > 130 && valor <= 160)) return ["Alerta", "#ffd700"];
+      return ["Crítico", "#c00"];
+    }
+
+    // Fondo fijo, no cambia
+
+    function actualizarVista() {
+      // Hora
+      document.getElementById('hora').textContent = "Hora: " + hora.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+      // Barra de glucosa
+      let nivel = Math.max(0, Math.min(1, (glucosa-40)/160));
+      let barra = document.getElementById('nivel');
+      barra.style.height = (nivel*350) + "px";
+      const [estado, color] = estadoGlucosa(glucosa);
+      barra.style.background = color;
+
+      // Estado círculo debajo de la barra
+      let circulo = document.getElementById('estadoCirculo');
+      circulo.textContent = estado;
+      circulo.style.background = color;
+      circulo.style.borderColor = color;
+      if (estado === "Óptimo") {
+        circulo.style.color = "#fff";
+      } else if (estado === "Alerta") {
+        circulo.style.color = "#222";
+      } else {
+        circulo.style.color = "#fff";
+      }
+
+      // Número de glucosa grande
+      document.getElementById('glucosaNumero').textContent = glucosa + " mg/dL";
+
+      // Personaje según estado
+      let personajeDiv = document.getElementById('personaje');
+      let emoji = "😃", borde = "#0c0", fondo = "#e0ffe0";
+      if (glucosa < 70 || glucosa > 160) {
+        emoji = "😵"; borde = "#c00"; fondo = "#ffe0e0";
+      } else if ((glucosa >= 70 && glucosa < 90) || (glucosa > 130 && glucosa <= 160)) {
+        emoji = "😐"; borde = "#ffd700"; fondo = "#fffbe0";
+      }
+      personajeDiv.textContent = emoji;
+      personajeDiv.style.borderColor = borde;
+      personajeDiv.style.background = fondo;
+
+      // Alerta
+      let alerta = document.getElementById('alerta');
+      if (glucosa < 70) {
+        alerta.innerHTML = "¡Nivel de glucosa CRÍTICO!<br><span style='font-size:0.9em'>¡Game Over por hipoglucemia!</span>";
+        alerta.className = "alerta";
+        alerta.style.background = "#fbb";
+        alerta.style.color = "#c00";
+        alerta.style.border = "2px solid #c00";
+      } else if (estado === "Crítico") {
+        alerta.innerHTML = "¡Nivel de glucosa CRÍTICO!<br><span style='font-size:0.9em'>¡Atención! Visión borrosa, mareos, lentitud...</span>";
+        alerta.className = "alerta";
+        alerta.style.background = "#fbb";
+        alerta.style.color = "#c00";
+        alerta.style.border = "2px solid #c00";
+      } else if (estado === "Alerta") {
+        alerta.textContent = "Nivel de glucosa en alerta";
+        alerta.className = "alerta";
+        alerta.style.background = "#fffbe0";
+        alerta.style.color = "#b89c00";
+        alerta.style.border = "2px solid #ffd700";
+      } else {
+        alerta.textContent = "";
+        alerta.className = "";
+        alerta.style.background = "none";
+        alerta.style.border = "none";
+      }
+
+      // Pregunta y opciones
+      let preguntaDiv = document.getElementById('pregunta');
+      let opcionesDiv = document.getElementById('opciones');
+      let consejoDiv = document.getElementById('consejo');
+      if (gameOver) {
+        preguntaDiv.innerHTML = "";
+        opcionesDiv.innerHTML = "";
+        consejoDiv.innerHTML = "";
+      } else if (juegoTerminado) {
+        preguntaDiv.innerHTML = "";
+        opcionesDiv.innerHTML = "";
+        consejoDiv.innerHTML = "";
+      } else {
+        let pregunta = preguntas[preguntaActual];
+        preguntaDiv.innerHTML = `Pregunta ${preguntaActual+1}/10<br>${pregunta.texto}`;
+        opcionesDiv.innerHTML = "";
+        pregunta.opciones.forEach((op, i) => {
+          let btn = document.createElement('button');
+          btn.className = "opcion-btn";
+          btn.innerHTML = op.texto;
+          btn.onclick = () => aplicarOpcion(i);
+          opcionesDiv.appendChild(btn);
+        });
+        consejoDiv.innerHTML = consejoActual ? consejoActual : "";
+      }
+
+      // Historial
+      let hist = document.getElementById('historial');
+      hist.innerHTML = "<b>Historial:</b><br>" + historial.map(h =>
+        `${h[0]} - ${h[1]} → <b>${h[2]} mg/dL</b>`
+      ).join("<br>");
+
+      // Fin del día
+      let finDiv = document.getElementById('fin');
+      if (gameOver) {
+        finDiv.innerHTML = `
+          <div class="gameover">
+            <b>¡Game Over!</b><br>
+            Tu nivel de glucosa bajó demasiado.<br>
+            <b>Recomendación:</b> Evita la hipoglucemia, come a tiempo y consulta a tu médico.<br>
+            <button class="reiniciar-btn" onclick="reiniciarJuego()">Reintentar</button>
+          </div>
+        `;
+      } else if (juegoTerminado) {
+        let enRango = historial.filter(h => h[2] >= 90 && h[2] <= 130).length;
+        let total = historial.length;
+        let logros = enRango === total ? "🏆 ¡Logro: Mantuviste tu glucosa en rango todo el día!" : "";
+        finDiv.innerHTML = `
+          <div class="fin">
+            <b>¡Día finalizado!</b><br>
+            Evolución de la glucosa:<br>
+            ${historial.map(h => `${h[0]}: ${h[2]} mg/dL`).join(" | ")}<br><br>
+            Decisiones correctas: ${enRango} de ${total}<br>
+            ${logros}<br>
+            <b>Recomendación:</b> Intenta mantener tu glucosa en el rango óptimo (90-130 mg/dL).<br>
+            <button class="reiniciar-btn" onclick="reiniciarJuego()">Volver a jugar</button>
+            <button class="reiniciar-btn" style="background:#888;margin-left:10px;" onclick="mostrarModalRecomendacion()">Terminar juego</button>
+          </div>
+        `;
+      } else {
+        finDiv.innerHTML = "";
+      }
+
+      let mensajeFinal = document.getElementById('mensajeFinal');
+      if (gameOver) {
+        mensajeFinal.style.display = "none";
+      } else if (juegoTerminado) {
+        mensajeFinal.style.display = "block";
+      } else {
+        mensajeFinal.style.display = "none";
+      }
+    }
+
+    function aplicarOpcion(idx) {
+      if (juegoTerminado || gameOver) return;
+      let pregunta = preguntas[preguntaActual];
+      let op = pregunta.opciones[idx];
+      glucosa += op.efecto;
+      glucosa = Math.max(40, Math.min(250, glucosa));
+      hora.setMinutes(hora.getMinutes() + 90);
+      historial.push([hora.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}), pregunta.texto + " (" + op.texto + ")", glucosa]);
+      consejoActual = op.consejo;
+      if (glucosa < 70) {
+        gameOver = true;
+      } else if (preguntaActual === preguntas.length - 1) {
+        juegoTerminado = true;
+      } else {
+        preguntaActual++;
+      }
+      actualizarVista();
+    }
+
+    function reiniciarJuego() {
+      window.location.href = "index.html"; // O la página que quieras
+    }
+
+    // Inicial
+    actualizarVista();
+
+    let modal = document.getElementById('modalRecomendacion');
+if (juegoTerminado) {
+  modal.style.display = "flex";
+} else {
+  modal.style.display = "none";
+}
+
+function mostrarModalRecomendacion() {
+  document.getElementById('modalRecomendacion').style.display = "flex";
+}
+  </script>
+</body>
+</html>
