@@ -323,91 +323,56 @@
   <script>
     // --- Preguntas y opciones ---
     const preguntas = [
-      {
-        texto: "Es hora del desayuno. ¿Qué eliges?",
-        opciones: [
-          {texto: "Pan blanco con mermelada y jugo", efecto: 40, consejo: "Desayuno alto en azúcar, sube rápido la glucosa."},
-          {texto: "Avena con fruta y agua", efecto: 15, consejo: "¡Excelente! Desayuno saludable y estable."},
-          {texto: "No desayunar", efecto: -20, consejo: "Saltarse el desayuno puede causar bajada de glucosa."}
-        ]
-      },
-      {
-        texto: "Vas a la escuela/trabajo. ¿Cómo te trasladas?",
-        opciones: [
-          {texto: "Caminando 30 minutos", efecto: -15, consejo: "Caminar ayuda a reducir la glucosa de forma saludable."},
-          {texto: "En auto o bus", efecto: 0, consejo: "No afecta directamente la glucosa."},
-          {texto: "En bicicleta rápido y sin comer nada", efecto: -25, consejo: "Ejercicio intenso sin comer puede bajar mucho la glucosa."}
-        ]
-      },
-      {
-        texto: "A media mañana tienes hambre. ¿Qué haces?",
-        opciones: [
-          {texto: "Snack azucarado (galletitas)", efecto: 30, consejo: "Un snack azucarado sube la glucosa rápidamente."},
-          {texto: "Fruta o yogur natural", efecto: 10, consejo: "Buena elección, sube la glucosa de forma estable."},
-          {texto: "No comer nada", efecto: -10, consejo: "No comer puede hacer que baje la glucosa."}
-        ]
-      },
-      {
-        texto: "Es hora del almuerzo. ¿Qué eliges?",
-        opciones: [
-          {texto: "Hamburguesa y gaseosa", efecto: 35, consejo: "Comida alta en carbohidratos y azúcar, sube mucho la glucosa."},
-          {texto: "Pollo a la plancha con ensalada", efecto: 10, consejo: "¡Muy bien! Almuerzo saludable."},
-          {texto: "Solo ensalada", efecto: -10, consejo: "Cuidado, podrías necesitar más carbohidratos para mantener la glucosa."}
-        ]
-      },
-      {
-        texto: "Después de almorzar, ¿qué haces?",
-        opciones: [
-          {texto: "Dormir siesta", efecto: 0, consejo: "Descansar no afecta directamente la glucosa."},
-          {texto: "Caminar 20 minutos", efecto: -10, consejo: "Caminar ayuda a mantener la glucosa en rango."},
-          {texto: "Aplicar insulina sin haber comido postre", efecto: -30, consejo: "Aplicar insulina sin comer puede causar hipoglucemia."}
-        ]
-      },
-      {
-        texto: "A media tarde tienes sed. ¿Qué tomas?",
-        opciones: [
-          {texto: "Refresco azucarado", efecto: 25, consejo: "Las bebidas azucaradas suben la glucosa rápidamente."},
-          {texto: "Agua", efecto: 0, consejo: "El agua es la mejor opción para hidratarte."},
-          {texto: "Café solo", efecto: 0, consejo: "El café solo no afecta la glucosa."}
-        ]
-      },
-      {
-        texto: "Te invitan a jugar fútbol intenso. ¿Qué haces?",
-        opciones: [
-          {texto: "Juego sin comer nada", efecto: -25, consejo: "Ejercicio intenso sin comer puede bajar mucho la glucosa."},
-          {texto: "Como una fruta antes de jugar", efecto: 10, consejo: "¡Bien! Comer antes de hacer ejercicio ayuda a evitar bajadas."},
-          {texto: "No juego", efecto: 0, consejo: "No afecta la glucosa."}
-        ]
-      },
-      {
-        texto: "Es hora de la merienda. ¿Qué eliges?",
-        opciones: [
-          {texto: "Pan dulce y chocolate caliente", efecto: 30, consejo: "Merienda alta en azúcar, sube la glucosa rápidamente."},
-          {texto: "Yogur natural y nueces", efecto: 10, consejo: "¡Muy bien! Merienda saludable."},
-          {texto: "No merendar", efecto: -15, consejo: "Saltarse la merienda puede causar bajada de glucosa."}
-        ]
-      },
-      {
-        texto: "Por la noche, ¿qué actividad realizas?",
-        opciones: [
-          {texto: "Ver TV", efecto: 0, consejo: "No afecta directamente la glucosa."},
-          {texto: "Caminar 15 minutos", efecto: -7, consejo: "Caminar ayuda a mantener la glucosa en rango."},
-          {texto: "Ejercicio intenso sin cenar", efecto: -20, consejo: "Ejercicio intenso sin cenar puede bajar mucho la glucosa."}
-        ]
-      },
-      {
-        texto: "Es hora de la cena. ¿Qué eliges?",
-        opciones: [
-          {texto: "Pizza y refresco", efecto: 35, consejo: "Cena alta en carbohidratos y azúcar, sube mucho la glucosa."},
-          {texto: "Pescado con verduras", efecto: 10, consejo: "¡Muy bien! Cena saludable."},
-          {texto: "Solo sopa", efecto: -10, consejo: "Cuidado, podrías necesitar más carbohidratos para mantener la glucosa."}
-        ]
-      }
-    ];
+  {
+    texto: "Es hora del desayuno. ¿Qué eliges?",
+    hora: "07:30",
+    opciones: [
+      {texto: "Pan blanco con mermelada y jugo", efecto: 40, consejo: "Desayuno alto en azúcar, sube rápido la glucosa."},
+      {texto: "Avena con fruta y agua", efecto: 15, consejo: "¡Excelente! Desayuno saludable y estable."},
+      {texto: "No desayunar", efecto: -20, consejo: "Saltarse el desayuno puede causar bajada de glucosa."}
+    ]
+  },
+  {
+    texto: "Vas a la escuela/trabajo. ¿Cómo te trasladas?",
+    hora: "08:30",
+    opciones: [
+      {texto: "Caminando 30 minutos", efecto: -15, consejo: "Caminar ayuda a reducir la glucosa de forma saludable."},
+      {texto: "En auto o bus", efecto: 0, consejo: "No afecta directamente la glucosa."},
+      {texto: "En bicicleta rápido y sin comer nada", efecto: -25, consejo: "Ejercicio intenso sin comer puede bajar mucho la glucosa."}
+    ]
+  },
+  {
+    texto: "A media mañana tienes hambre. ¿Qué haces?",
+    hora: "10:30",
+    opciones: [
+      {texto: "Snack azucarado (galletitas)", efecto: 30, consejo: "Un snack azucarado sube la glucosa rápidamente."},
+      {texto: "Fruta o yogur natural", efecto: 10, consejo: "Buena elección, sube la glucosa de forma estable."},
+      {texto: "No comer nada", efecto: -10, consejo: "No comer puede hacer que baje la glucosa."}
+    ]
+  },
+  {
+    texto: "A media tarde tienes sed. ¿Qué tomas?",
+    hora: "16:00",
+    opciones: [
+      {texto: "Refresco azucarado", efecto: 25, consejo: "Las bebidas azucaradas suben la glucosa rápidamente."},
+      {texto: "Agua", efecto: 0, consejo: "El agua es la mejor opción para hidratarte."},
+      {texto: "Café solo", efecto: 0, consejo: "El café solo no afecta la glucosa."}
+    ]
+  },
+  {
+    texto: "Es hora de la cena. ¿Qué eliges?",
+    hora: "20:00",
+    opciones: [
+      {texto: "Pizza y refresco", efecto: 35, consejo: "Cena alta en carbohidratos y azúcar, sube mucho la glucosa."},
+      {texto: "Pescado con verduras", efecto: 10, consejo: "¡Muy bien! Cena saludable."},
+      {texto: "Solo sopa", efecto: -10, consejo: "Cuidado, podrías necesitar más carbohidratos para mantener la glucosa."}
+    ]
+  }
+];
 
     // --- Variables del juego ---
     let glucosa = 100;
-    let hora = new Date(2020, 1, 1, 7, 0, 0); // 07:00
+    let hora = preguntas[0].hora;
     let historial = [];
     let preguntaActual = 0;
     let consejoActual = "";
@@ -424,7 +389,8 @@
 
     function actualizarVista() {
       // Hora
-      document.getElementById('hora').textContent = "Hora: " + hora.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+      document.getElementById('hora').textContent = "Hora: " + preguntas[preguntaActual]?.hora;
+
 
       // Barra de glucosa
       let nivel = Math.max(0, Math.min(1, (glucosa-40)/160));
@@ -502,7 +468,7 @@
         consejoDiv.innerHTML = "";
       } else {
         let pregunta = preguntas[preguntaActual];
-        preguntaDiv.innerHTML = `Pregunta ${preguntaActual+1}/10<br>${pregunta.texto}`;
+        preguntaDiv.innerHTML = `Pregunta ${preguntaActual+1}/5<br>${pregunta.texto}`;
         opcionesDiv.innerHTML = "";
         pregunta.opciones.forEach((op, i) => {
           let btn = document.createElement('button');
@@ -562,23 +528,24 @@
     }
 
     function aplicarOpcion(idx) {
+
       if (juegoTerminado || gameOver) return;
       let pregunta = preguntas[preguntaActual];
       let op = pregunta.opciones[idx];
       glucosa += op.efecto;
       glucosa = Math.max(40, Math.min(250, glucosa));
-      hora.setMinutes(hora.getMinutes() + 90);
-      historial.push([hora.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}), pregunta.texto + " (" + op.texto + ")", glucosa]);
+      // Usa la hora de la pregunta actual
+      historial.push([pregunta.hora, pregunta.texto + " (" + op.texto + ")", glucosa]);
       consejoActual = op.consejo;
       if (glucosa < 70) {
         gameOver = true;
       } else if (preguntaActual === preguntas.length - 1) {
-        juegoTerminado = true;
-      } else {
-        preguntaActual++;
-      }
-      actualizarVista();
+      juegoTerminado = true;
+    } else {
+      preguntaActual++;
     }
+    actualizarVista();
+  }
 
     function reiniciarJuego() {
       window.location.href = "index.html"; // O la página que quieras
